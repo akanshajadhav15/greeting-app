@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Greeting App</title>
+  <style>
+    /* ---- Define the Animation ---- */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* ---- Global & Background Animation ---- */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+      overflow-x: hidden; 
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ---- Typography ---- */
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); 
+      transition: all 0.3s ease;
+    }
+    
+    h1:hover {
+      text-shadow: 0 0 15px #fff, 
+                   0 0 25px #fff,
+                   0 0 40px #fff;
+    }
+
+    /* ---- Main App Container ---- */
+    .app-container {
+      width: 100%;
+      max-width: 400px;
+      padding: 2.5rem;
+      background: rgba(0, 0, 0, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); 
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .app-container:hover {
+      border-color: #fff;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.7), 
+                  0 0 40px rgba(255, 255, 255, 0.5);
+    }
+
+    /* ---- Form Elements ---- */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem; /* CHANGED: Increased space */
+      align-items: center; /* CHANGED: Added to center the smaller button */
+    }
+
+    input[type="text"] {
+      width: 100%; /* This stays 100% */
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #fff;
+      border-radius: 10px;
+      font-size: 1rem;
+      color: #fff;
+      box-sizing: border-box; 
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="text"]:hover {
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+      border-color: #fff;
+      box-shadow: 0 0 15px #fff;
+    }
+    
+    input[type="text"]::placeholder {
+      color: #ccc;
+    }
+
+    /* ---- Submit Button ---- */
+    input[type="submit"] {
+      width: 25%; /* CHANGED: Set to 1/4 width */
+      padding: 15px;
+      background: transparent;
+      border: 2px solid #fff;
+      border-radius: 10px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      -webkit-appearance: none; 
+    }
+
+    input[type="submit"]:hover {
+      background: #fff;
+      color: #111;
+      border-color: #fff;
+      box-shadow: 0 0 20px #fff, 
+                  0 0 35px #fff;
+    }
+
+    /* ---- Output Message ---- */
+    #msg {
+      margin-top: 2rem;
+      font-size: 1.8rem;
+      color: #00ffff;
+      font-weight: bold;
+      text-shadow: 0 0 10px #00ffff,
+                   0 0 20px #00ffff;
+      line-height: 1.5;
+      opacity: 0; /* Start hidden for animation */
+    }
+    
+    .fade-in {
+      opacity: 1;
+      animation: fadeInUp 0.5s ease-out forwards;
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Greeting App</h1>
+
+  <div class="app-container">
+    <form onsubmit="show()">
+      <label for="name" style="display:none;">Enter Your Name</label>
+      <input type="text" id="name" placeholder="Enter Your Name">
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+
+  <h2 id="msg"></h2>
+
+  <script>
+    function show() {
+      event.preventDefault();
+
+      let name = document.getElementById("name");
+      let msg = document.getElementById("msg");
+
+      if (name.value.trim() === "") {
+        alert("Please enter your name!");
+        msg.innerHTML = ""; 
+        msg.classList.remove("fade-in"); 
+        name.focus();
+        return;
+      }
+      
+      msg.classList.remove("fade-in");
+
+      let d = new Date();
+      let hr = d.getHours();
+      
+      if (hr < 12)
+        msg.innerHTML = "Good Morning, " + name.value;
+      else if (hr < 16)
+        msg.innerHTML = "Good Afternoon, " + name.value;
+      else
+        msg.innerHTML = "Good Evening, " + name.value;
+      
+      void msg.offsetWidth; 
+      msg.classList.add("fade-in");
+    }
+  </script>
+
+</body>
+</html>
+
